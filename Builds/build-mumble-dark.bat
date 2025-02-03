@@ -1,13 +1,26 @@
+@echo off
 
-set SCRIPT_DIR=mumble-theme
-set PATH=%PATH%;C:\Users\%USERNAME%\Downloads\Compressed\qtsass_0.2.2_win64;
-pushd %SCRIPT_DIR%\source
-qtsass -o ../Dark.qss Dark.scss
+pip install -r requirements.txt
+
+set ThemeDir=mumble-theme
+set IconsDir=mumble-icons
+set ThemeName=mumble-dark
+
+pushd %ThemeDir%\source
+    qtsass -o ..\dark.qss dark.scss
 popd
-rd /q /s mumble-icons
-mkdir mumble-icons
-python fill-icons.py nowshed #4B9CD3 mumble-icons
-: for /r icons/nowshed/ %%i in (*.svg) do powershell -Command "(gc %%~dpnxi) -replace '#4285f4', '#6a1b9a' | Out-File -encoding ASCII mumble-icons/%%~nxi"
-python make-resource.py -base-dir %SCRIPT_DIR%\ -find-files -config dark-config.json -icons-dir mumble-icons -output mumble-dark-nowshed-recolored -style dark.qss 
-rd /q /s mumble-icons
-python make-resource.py -base-dir %SCRIPT_DIR%\ -find-files -config dark-config.json -icons-dir icons/nowshed -output mumble-dark-nowshed -style dark.qss 
+
+python fill-icons.py nowshed #4B9CD3 %IconsDir%
+
+rem for /r icons/nowshed/ %%i in (*.svg) do powershell -Command "(gc %%~dpnxi) -replace '#4285f4', '#6a1b9a' | Out-File -encoding ASCII %IconsDir%/%%~nxi"
+
+python make-resource.py -base-dir %ThemeDir% ^
+                        -find-files ^
+                        -config dark-config.json ^
+                        -icons-dir %IconsDir% ^
+                        -output %ThemeName% ^
+                        -style dark.qss 
+
+rd /q /s %IconsDir%
+
+rem python make-resource.py -base-dir %ThemeDir% -find-files -config dark-config.json -icons-dir icons\nowshed -output mumble-dark-nowshed -style dark.qss 
