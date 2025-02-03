@@ -7,7 +7,7 @@ set IconsDir=mumble-icons
 set ThemeName=mumble-dark
 
 pushd %ThemeDir%\source
-    qtsass -o ..\dark.qss dark.scss
+    qtsass -o ..\Dark.qss Dark.scss
 popd
 
 python fill-icons.py nowshed #4B9CD3 %IconsDir%
