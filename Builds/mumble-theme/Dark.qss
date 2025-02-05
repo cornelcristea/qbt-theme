@@ -924,6 +924,6 @@ TransferListWidget {
 
 /* issue: https://github.com/jagannatharjun/qbt-theme/issues/75 */
 QWidget {
-  background-color: #292929; }
+  background-color: #212121; }
 
 /* end */
